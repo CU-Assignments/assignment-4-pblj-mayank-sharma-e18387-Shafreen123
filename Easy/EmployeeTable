@@ -1,85 +1,103 @@
-import java.util.Scanner;
+import java.util.*;
+
 public class Main {
- public static void main(String[] args) {
+    static List<String> empNo = new ArrayList<>(Arrays.asList("1001", "1002", "1003", "1004", "1005", "1006", "1007"));
+    static List<String> empName = new ArrayList<>(Arrays.asList("Ashish", "Sushma", "Rahul", "Chahat", "Ranjan", "Suman", "Tanmay"));
+    static List<String> joinDate = new ArrayList<>(Arrays.asList("01/04/2009", "23/08/2012", "12/11/2008", "29/01/2013", "16/07/2005", "01/01/2000", "12/06/2006"));
+    static List<String> desigCode = new ArrayList<>(Arrays.asList("e", "c", "k", "r", "m", "e", "c"));
+    static List<String> dept = new ArrayList<>(Arrays.asList("R&D", "PM", "Acct", "Front Desk", "Engg", "Manufacturing", "PM"));
+    static List<Integer> basic = new ArrayList<>(Arrays.asList(20000, 30000, 10000, 12000, 50000, 23000, 29000));
+    static List<Integer> hra = new ArrayList<>(Arrays.asList(8000, 12000, 8000, 6000, 20000, 9000, 12000));
+    static List<Integer> it = new ArrayList<>(Arrays.asList(3000, 9000, 1000, 202000, 20000, 4400, 10000));
 
- String[] empNo = {"1001", "1002", "1003", "1004", "1005", "1006", "1007"};
- String[] empName = {"Ashish", "Sushma", "Rahul", "Chahat", "Ranjan",
-"Suman", "Tanmay"};
- String[] joinDate = {"01/04/2009", "23/08/2012", "12/11/2008", "29/01/2013",
-"16/07/2005", "01/01/2000", "12/06/2006"};
- String[] desigCode = {"e", "c", "k", "r", "m", "e", "c"};
- String[] dept = {"R&D", "PM", "Acct", "Front Desk", "Engg", "Manufacturing",
-"PM"};
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            System.out.println("\n1. Add Employee  2. Update Employee  3. Remove Employee  4. Search Employee  5. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = sc.nextInt(); sc.nextLine();
+            switch (choice) {
+                case 1: addEmployee(sc); break;
+                case 2: updateEmployee(sc); break;
+                case 3: removeEmployee(sc); break;
+                case 4: searchEmployee(sc); break;
+                case 5: System.out.println("Exiting..."); return;
+                default: System.out.println("Invalid choice. Try again.");
+            }
+        }
+    }
 
- int[] basic = {20000, 30000, 10000, 12000, 50000, 23000, 29000};
- int[] hra = {8000, 12000, 8000, 6000, 20000, 9000, 12000};
- int[] it = {3000, 9000, 1000, 202000, 20000, 4400, 10000};
+    static void addEmployee(Scanner sc) {
+        System.out.print("Enter Employee No: ");
+        empNo.add(sc.nextLine());
+        System.out.print("Enter Name: ");
+        empName.add(sc.nextLine());
+        System.out.print("Enter Joining Date: ");
+        joinDate.add(sc.nextLine());
+        System.out.print("Enter Designation Code: ");
+        desigCode.add(sc.nextLine());
+        System.out.print("Enter Department: ");
+        dept.add(sc.nextLine());
+        System.out.print("Enter Basic Salary: ");
+        basic.add(sc.nextInt());
+        System.out.print("Enter HRA: ");
+        hra.add(sc.nextInt());
+        System.out.print("Enter IT: ");
+        it.add(sc.nextInt());
+        System.out.println("Employee added successfully!");
+    }
 
- System.out.println("Employee Details Table:");
- System.out.printf("%-8s %-12s %-12s %-15s %-16s\n", "Emp No", "Emp
-Name", "Join Date", "Department", "Desig Code");
- System.out.println("------------------------------------------------------------------");
- for (int i = 0; i < empNo.length; i++) {
- System.out.printf("%-8s %-12s %-12s %-15s %-16s\n", empNo[i],
-empName[i], joinDate[i], dept[i], desigCode[i]);
- }
- System.out.println("\nDesignation and DA Table:");
- System.out.printf("%-12s %-15s %-7s\n", "Desig Code", "Designation", "DA");
- System.out.println("----------------------------------");
- System.out.printf("%-12s %-15s %-7d\n", "e", "Engineer", 20000);
- System.out.printf("%-12s %-15s %-7d\n", "c", "Consultant", 32000);
- System.out.printf("%-12s %-15s %-7d\n", "k", "Clerk", 12000);
- System.out.printf("%-12s %-15s %-7d\n", "r", "Receptionist", 15000);
- System.out.printf("%-12s %-15s %-7d\n", "m", "Manager", 40000);
+    static void updateEmployee(Scanner sc) {
+        System.out.print("Enter Employee No to update: ");
+        String id = sc.nextLine();
+        int index = empNo.indexOf(id);
+        if (index != -1) {
+            System.out.print("Enter New Name: ");
+            empName.set(index, sc.nextLine());
+            System.out.print("Enter New Department: ");
+            dept.set(index, sc.nextLine());
+            System.out.print("Enter New Designation Code: ");
+            desigCode.set(index, sc.nextLine());
+            System.out.print("Enter New Basic Salary: ");
+            basic.set(index, sc.nextInt());
+            System.out.print("Enter New HRA: ");
+            hra.set(index, sc.nextInt());
+            System.out.print("Enter New IT: ");
+            it.set(index, sc.nextInt());
+            System.out.println("Employee updated successfully!");
+        } else {
+            System.out.println("Employee not found.");
+        }
+    }
 
- Scanner sc = new Scanner(System.in);
- System.out.print("\nEnter Employee ID to calculate salary: ");
- String inputEmpId = sc.nextLine();
+    static void removeEmployee(Scanner sc) {
+        System.out.print("Enter Employee No to remove: ");
+        String id = sc.nextLine();
+        int index = empNo.indexOf(id);
+        if (index != -1) {
+            empNo.remove(index);
+            empName.remove(index);
+            joinDate.remove(index);
+            desigCode.remove(index);
+            dept.remove(index);
+            basic.remove(index);
+            hra.remove(index);
+            it.remove(index);
+            System.out.println("Employee removed successfully!");
+        } else {
+            System.out.println("Employee not found.");
+        }
+    }
 
- int index = -1;
- for (int i = 0; i < empNo.length; i++) {
- if (empNo[i].equals(inputEmpId)) {
- index = i;
- break;
- } 
+    static void searchEmployee(Scanner sc) {
+        System.out.print("Enter Employee No to search: ");
+        String id = sc.nextLine();
+        int index = empNo.indexOf(id);
+        if (index != -1) {
+            System.out.printf("\nEmp No: %s  Name: %s  Join Date: %s  Dept: %s  Designation: %s  Salary: %d\n",
+                    empNo.get(index), empName.get(index), joinDate.get(index), dept.get(index), desigCode.get(index), (basic.get(index) + hra.get(index) - it.get(index)));
+        } else {
+            System.out.println("Employee not found.");
+        }
+    }
 }
- if (index == -1) {
- System.out.println("There is no employee with empid: " + inputEmpId);
- } else {
- int da;
- String designation;
- switch (desigCode[index]) {
- case "e":
- designation = "Engineer";
- da = 20000;
- break;
- case "c":
- designation = "Consultant";
- da = 32000;
- break;
- case "k":
- designation = "Clerk";
- da = 12000;
- break;
- case "r":
- designation = "Receptionist";
- da = 15000;
- break;
- case "m":
- designation = "Manager";
- da = 40000;
- break;
- default:
- designation = "Unknown";
- da = 0;
- }
-
- int salary = basic[index] + hra[index] + da - it[index]; 
-System.out.println("\nEmp No Emp Name Department Designation DA Salary");
- System.out.println("----------------------------------------------------------------------
--");
- System.out.printf("%-8s %-12s %-15s %-15s %-7d %-7d\n", empNo[index],
-empName[index], dept[index], designation, da, salary);
- }
- sc.close();
- }} 
