@@ -1,0 +1,63 @@
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+class TicketBookingSystem {
+    private int availableSeats = 10; // Total seats available
+    private final Lock lock = new ReentrantLock();
+
+    public void bookTicket(String name, int seats) {
+        lock.lock();
+        try {
+            if (seats <= availableSeats) {
+                System.out.println(name + " successfully booked " + seats + " seat(s).");
+                availableSeats -= seats;
+            } else {
+                System.out.println(name + " failed to book seats. Not enough available.");
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+}
+
+class BookingThread extends Thread {
+    private TicketBookingSystem system;
+    private String name;
+    private int seats;
+
+    public BookingThread(TicketBookingSystem system, String name, int seats, int priority) {
+        this.system = system;
+        this.name = name;
+        this.seats = seats;
+        setPriority(priority); // Set thread priority
+    }
+
+    @Override
+    public void run() {
+        system.bookTicket(name, seats);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        TicketBookingSystem system = new TicketBookingSystem();
+        
+        // Creating threads for booking
+        BookingThread vip1 = new BookingThread(system, "VIP 1", 2, Thread.MAX_PRIORITY);
+        BookingThread vip2 = new BookingThread(system, "VIP 2", 3, Thread.MAX_PRIORITY);
+        BookingThread user1 = new BookingThread(system, "User 1", 4, Thread.NORM_PRIORITY);
+        BookingThread user2 = new BookingThread(system, "User 2", 2, Thread.MIN_PRIORITY);
+        vip1.start();
+        vip2.start();
+        user1.start();
+        user2.start();
+        try {
+            vip1.join();
+            vip2.join();
+            user1.join();
+            user2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
